@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import UsersPage from "./screens/users.page.tsx";
-
 import {
     createBrowserRouter,
     Link,
@@ -12,6 +11,7 @@ import {
 import { TeamOutlined, FireOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
+import "./App.scss";
 
 const items: MenuProps["items"] = [
     {
