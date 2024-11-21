@@ -1,4 +1,4 @@
-import { Button, Table } from "antd";
+import { Button, notification, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
@@ -29,7 +29,6 @@ const UsersTable = () => {
 
     useEffect(() => {
         //update
-        console.log(">>> check useEffect");
         getData();
     }, []);
 
@@ -43,6 +42,13 @@ const UsersTable = () => {
         });
 
         const d = await res.json();
+
+        if (!d.data) {
+            notification.error({
+                message: JSON.stringify(d.message),
+            });
+        }
+
         setListUsers(d.data.result);
     };
 

@@ -42,9 +42,9 @@ const UpdateUserModal = (props: IProps) => {
 
     const handleOk = async () => {
         const data = {
+            _id: dataUpdate?._id, //undefined
             name,
             email,
-            password,
             age,
             gender,
             role,
@@ -52,21 +52,20 @@ const UpdateUserModal = (props: IProps) => {
         };
 
         const res = await fetch("http://localhost:8000/api/v1/users", {
-            method: "POST",
+            method: "PATCH",
             headers: {
                 Authorization: `Bearer ${access_token}`,
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ ...data }),
+            body: JSON.stringify(data),
         });
 
         const d = await res.json();
-
         if (d.data) {
             //success
             await getData();
             notification.success({
-                message: "Tạo mới user thành công.",
+                message: "Cập nhật User thành công.",
             });
             handleCloseCreateModal();
         } else {
@@ -115,6 +114,7 @@ const UpdateUserModal = (props: IProps) => {
             <div>
                 <label>Password:</label>
                 <Input
+                    disabled={true}
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                 />
