@@ -5,11 +5,15 @@ import { PlusOutlined } from "@ant-design/icons";
 import CreateUserModal from "./create.user.modal";
 import UpdateUserModal from "./update.user.modal";
 
-interface IUsers {
+export interface IUsers {
     _id: string;
     email: string;
     name: string;
     role: string;
+    address: string;
+    gender: string;
+    password: string;
+    age: string;
 }
 
 const UsersTable = () => {
@@ -17,6 +21,8 @@ const UsersTable = () => {
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+
+    const [dataUpdate, setDataUpdate] = useState<null | IUsers>(null);
 
     const access_token =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0b2tlbiBsb2dpbiIsImlzcyI6ImZyb20gc2VydmVyIiwiX2lkIjoiNjczNDVjZWNhNjg5ZjQ5MThhY2JiYTlkIiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJhZGRyZXNzIjoiVmlldE5hbSIsImlzVmVyaWZ5Ijp0cnVlLCJuYW1lIjoiSSdtIGFkbWluIiwidHlwZSI6IlNZU1RFTSIsInJvbGUiOiJBRE1JTiIsImdlbmRlciI6Ik1BTEUiLCJhZ2UiOjY5LCJpYXQiOjE3MzIxNzM3MzQsImV4cCI6MTgxODU3MzczNH0.RVeaDjkeDTjDqCqNX54h9GyPO2eD8TXOEaayaiV-JKU";
@@ -74,6 +80,7 @@ const UsersTable = () => {
                         <button
                             onClick={() => {
                                 console.log(">>> check record: ", record);
+                                setDataUpdate(record);
                                 setIsUpdateModalOpen(true);
                             }}
                         >
@@ -117,8 +124,10 @@ const UsersTable = () => {
             <UpdateUserModal
                 access_token={access_token}
                 getData={getData}
-                isCreateModalOpen={isUpdateModalOpen}
-                setIsCreateModalOpen={setIsUpdateModalOpen}
+                isUpdateModalOpen={isUpdateModalOpen}
+                setIsUpdateModalOpen={setIsUpdateModalOpen}
+                dataUpdate={dataUpdate}
+                setDataUpdate={setDataUpdate}
             />
         </>
     );
