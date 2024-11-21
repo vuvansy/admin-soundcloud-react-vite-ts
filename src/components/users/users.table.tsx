@@ -1,6 +1,7 @@
-import { Table } from "antd";
+import { Button, Modal, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
+import { PlusOutlined } from "@ant-design/icons";
 
 interface IUsers {
     _id: string;
@@ -62,10 +63,48 @@ const UsersTable = () => {
         },
     ];
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
     return (
         <>
-            <h2>Table Users</h2>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                }}
+            >
+                <h2>Table Users</h2>
+                <div>
+                    <Button
+                        icon={<PlusOutlined />}
+                        type={"primary"}
+                        onClick={showModal}
+                    >
+                        Add new
+                    </Button>
+                </div>
+            </div>
             <Table columns={columns} dataSource={listUsers} rowKey={"_id"} />
+
+            <Modal
+                title="Basic Modal"
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            >
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+            </Modal>
         </>
     );
 };
