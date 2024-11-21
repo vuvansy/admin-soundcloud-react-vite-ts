@@ -1,7 +1,7 @@
-import { Button, notification, Table } from "antd";
+import { Button, message, notification, Popconfirm, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import CreateUserModal from "./create.user.modal";
 import UpdateUserModal from "./update.user.modal";
 
@@ -52,6 +52,31 @@ const UsersTable = () => {
         setListUsers(d.data.result);
     };
 
+    const confirm = async (user: IUsers) => {
+        // message.success("Click on Yes");
+        const res = await fetch(
+            `http://localhost:8000/api/v1/users/${user._id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        const d = await res.json();
+        if (d.data) {
+            notification.success({
+                message: "Xóa user thành công.",
+            });
+            await getData();
+        } else {
+            notification.error({
+                message: JSON.stringify(d.message),
+            });
+        }
+    };
+
     const columns: ColumnsType<IUsers> = [
         {
             title: "Email",
@@ -83,15 +108,28 @@ const UsersTable = () => {
             render: (value, record) => {
                 return (
                     <div>
-                        <button
+                        <Button
                             onClick={() => {
                                 console.log(">>> check record: ", record);
                                 setDataUpdate(record);
                                 setIsUpdateModalOpen(true);
                             }}
                         >
-                            Edit
-                        </button>{" "}
+                            <EditOutlined />
+                        </Button>
+
+                        <Popconfirm
+                            placement="topLeft"
+                            title="Delete the user"
+                            description={`Are you sure to delete this user. name = ${record.name}?`}
+                            onConfirm={() => confirm(record)}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <Button style={{ marginLeft: 20 }} danger>
+                                <DeleteOutlined />
+                            </Button>
+                        </Popconfirm>
                     </div>
                 );
             },
