@@ -1,8 +1,13 @@
+import { Result } from "antd";
 function App() {
     return (
-        <>
-            <div>Trang chủ</div>
-        </>
+        <div>
+            <Result
+                status="success"
+                title="Admin Dự án Clone SoundCloud"
+                subTitle="Build with React Vite (Typescript) & Ant Design"
+            />
+        </div>
     );
 }
 

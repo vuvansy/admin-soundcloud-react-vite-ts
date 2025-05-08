@@ -8,10 +8,11 @@ import {
     Outlet,
     RouterProvider,
 } from "react-router-dom";
-import { TeamOutlined, FireOutlined } from "@ant-design/icons";
+import { TeamOutlined, FireOutlined, AudioOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import "./App.scss";
+import TracksPage from "./screens/tracks.page.tsx";
 
 const items: MenuProps["items"] = [
     {
@@ -23,6 +24,11 @@ const items: MenuProps["items"] = [
         label: <Link to="/users">Manage Users</Link>,
         key: "users",
         icon: <TeamOutlined />,
+    },
+    {
+        label: <Link to='/tracks'>Manage Tracks</Link>,
+        key: 'tracks',
+        icon: <AudioOutlined />,
     },
 ];
 
@@ -46,26 +52,26 @@ const LayoutAdmin = () => {
 
     const getData = async () => {
         const res = await fetch(
-          "http://localhost:8000/api/v1/auth/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              username: "hoidanit@gmail.com",
-              password: "123456"
+            "http://localhost:8000/api/v1/auth/login",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username: "hoidanit@gmail.com",
+                    password: "123456"
+                })
             })
-          })
         const d = await res.json();
         if (d.data) {
-          localStorage.setItem("access_token", d.data.access_token);
+            localStorage.setItem("access_token", d.data.access_token);
         }
-      }
-      useEffect(() => {
+    }
+    useEffect(() => {
         getData();
-      }, [])
-    
+    }, [])
+
 
     return (
         <div>
@@ -85,12 +91,11 @@ const router = createBrowserRouter([
                 path: "users",
                 element: <UsersPage />,
             },
+            {
+                path: "tracks",
+                element: <TracksPage />,
+            },
         ],
-    },
-
-    {
-        path: "/tracks",
-        element: <div>Manage tracks</div>,
     },
 ]);
 

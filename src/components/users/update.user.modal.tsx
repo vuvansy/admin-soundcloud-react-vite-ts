@@ -89,6 +89,7 @@ const UpdateUserModal = (props: IProps) => {
             onOk={() => form.submit()}
             onCancel={() => handleCloseCreateModal()}
             maskClosable={false}
+            width={"40vw"}
         >
             <Form
                 name="basic"
